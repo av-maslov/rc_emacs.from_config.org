@@ -1,6 +1,5 @@
 
 2023-05-12: Set up for SBCL, abandon doom emacs, but learn trheir set up 
-2022-10-07: `git@github.com:av-maslov/rc_emacs.d.git`
 
 Project structure inspired by :
 https://github.com/ChristianChiarulli/lvim
@@ -10,7 +9,7 @@ https://github.com/doomemacs/doomemacs
 ### To clone
 
 ```
-git clone https://github.com/av-maslov/emacs-minimal.git ~/.emacs.d
+git clone git remote add origin https://github.com/av-maslov/emacs-minimal2.git ~/.emacs.d
 git clone https://github.com/av-maslov/emacs-yasnippets.git ~/.emacs.d/plugins-yasnippet-snippets
 ```
 
