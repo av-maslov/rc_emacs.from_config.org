@@ -1,0 +1,11 @@
+ac-math/
+*.data
+*.el~
+*.last
+*.elc
+elpa/
+*.*~
+bookmarks
+smex-items
+ido.last
+ac-comphist.dat
