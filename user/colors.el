@@ -5,9 +5,12 @@
 (add-to-list 'custom-theme-load-path (get-full-path "themes/emacs-color-theme-solarized/"))
 (add-to-list 'custom-theme-load-path (get-full-path "themes/monokai-emacs/"))
 
-;;; Start emacs for clojure themes
 (add-to-list 'load-path (get-full-path "themes/emacs-for-clojure/"))
-(add-to-list 'custom-theme-load-path (get-full-path "themes/emacs-for-clojure/"))
+(add-to-list 'custom-theme-load-path (get-full-path "themes/emacs-for-clojure"))
+
+(add-to-list 'load-path (get-full-path "themes/emacs-theme-gruvbox/"))
+(add-to-list 'custom-theme-load-path (get-full-path "themes/emacs-theme-gruvbox"))
+
 ;;(load-theme 'tomorrow-night)
 ;;(load-theme 'tomorrow-night-bright)
 ;;(load-theme 'tomorrow-night-blue)
@@ -79,9 +82,7 @@
 ;;(load-theme 'solarized t)
 ;;(load-theme 'spacemacs-dark t)
 
-(dark-clojure)
-
-;;;;;; Set line number color
-;;;;;; https://stackoverflow.com/questions/21971940/how-to-set-color-for-linum-in-emacs
-;;(set-face-foreground 'linum "magenta")
-;;(set-face-foreground 'linum "darkgrey")
+;;(dark-clojure)
+;;(spc-dark)
+;;(load "gruvbox.el")
+(load-theme 'gruvbox-dark-hard t)
