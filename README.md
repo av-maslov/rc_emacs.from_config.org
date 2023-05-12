@@ -2,6 +2,10 @@
 2023-05-12: Set up for SBCL, abandon doom emacs, but learn trheir set up 
 2022-10-07: `git@github.com:av-maslov/rc_emacs.d.git`
 
+Project structure inspired by :
+https://github.com/ChristianChiarulli/lvim
+https://github.com/doomemacs/doomemacs
+
 
 ### To clone
 

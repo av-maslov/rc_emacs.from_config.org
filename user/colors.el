@@ -43,15 +43,15 @@
 
 (defun dracula ()
   (interactive)
-  (load-theme 'dracula))
+  (load-theme 'dracula t))
 
 (defun spolsky ()
   (interactive)
-  (load-theme 'spolsky))
+  (load-theme 'spolsky t))
 
 (defun dark-mint ()
   (interactive)
-  (load-theme 'dark-mint))
+  (load-theme 'dark-mint t))
 ;;;; End 2017.04.16
 
 ;; (add-to-list 'load-path (get-full-path "themes/spacemacs-theme/"))

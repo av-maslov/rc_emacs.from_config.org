@@ -11,14 +11,15 @@
 (setq tooggle-word-wrap t)
 
 (setq path-to-emacsd "~/.emacs.d/")
+
 (defun get-full-path (subpath)
   (concat path-to-emacsd subpath))
 
 (setq backup-directory-alist
-      `((".*" . , "~/emacstemp/")))
+      `((".*" . , "~/.emacstemp/")))
 
 (setq auto-save-file-name-transforms
-      `((".*" , "~/emacstemp/" t)))
+      `((".*" , "~/.emacstemp/" t)))
 
 ;; ---------------------- AUTO INSTALL PACKAGES (If needed)
 (add-to-list 'load-path (get-full-path "~/.emacs.d/"))
@@ -34,9 +35,9 @@
 ;;; After symon is installed
 ;; (require 'symon)
 ;; (add-to-list 'load-path path-to-emacsd)
-(add-to-list 'load-path (get-full-path "settings/"))
-(add-to-list 'load-path (get-full-path "settings/plugins-settings/"))
-(add-to-list 'load-path (get-full-path "customizations/"))
+;; (add-to-list 'load-path (get-full-path "settings/"))
+;; (add-to-list 'load-path (get-full-path "settings/plugins-settings/"))
+(add-to-list 'load-path (get-full-path "user/"))
 (add-to-list 'load-path (get-full-path "plugins/"))
 (add-to-list 'load-path (get-full-path "plugins/smex/"))
 (add-to-list 'load-path (get-full-path "plugins/aceJump/"))
@@ -79,7 +80,7 @@
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("tromey" . "http://tromey.com/elpa/") t)
-(package-initialize)
+;;(package-initialize)
 (when (not package-archive-contents)
   (package-refresh-contents))
 
@@ -194,18 +195,3 @@
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
-
-;;(custom-set-variables
-;; ;; custom-set-variables was added by Custom.
-;; ;; If you edit it by hand, you could mess it up, so be careful.
-;; ;; Your init file should contain only one such instance.
-;; ;; If there is more than one, they won't work right.
-;; '(custom-safe-themes
-;;   '("cf08ae4c26cacce2eebff39d129ea0a21c9d7bf70ea9b945588c1c66392578d1" default))
-;; '(package-selected-packages '(use-package magit company auto-complete)))
-;;(custom-set-faces
-;; ;; custom-set-faces was added by Custom.
-;; ;; If you edit it by hand, you could mess it up, so be careful.
-;; ;; Your init file should contain only one such instance.
-;; ;; If there is more than one, they won't work right.
-;; )
