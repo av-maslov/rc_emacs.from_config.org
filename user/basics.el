@@ -3,17 +3,136 @@
 ;;
 (setq path-to-emacsd "~/.emacs.d/")
 
+;; https://github.com/daviwil/emacs-from-scratch/blob/3075158cae210060888001c0d76a58a4178f6a00/init.el
+;;;; http://ergoemacs.org/emacs/emacs_toggle-word-wrap.html
+(setq tooggle-word-wrap t)
+(setq-default fill-column 65)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+;; Highlight selection
+(transient-mark-mode t)
+
+;;(set-face-attribute 'default nil :height 125)
+(set-face-attribute 'default nil :font "Fira Code Retina" :height 110)
+
+(recentf-mode 1) ;; M-x recentf-open-files
+(setq history-length 25)
+(savehist-mode 1)
+;; Remember and restore the last cursor location of opened files
+(save-place-mode 1)
+;; Move customization variables to a separate file and load it
+(setq custom-file (locate-user-emacs-file "custom-vars.el"))
+(load custom-file 'noerror 'nomessage)
+;; Don't pop up UI dialogs when prompting
+(setq use-dialog-box nil)
+;; Revert buffers when the underlying file has changed
+(global-auto-revert-mode 1)
+;; Revert Dired and other buffers
+(setq global-auto-revert-non-file-buffers t)
 ;; Turn off beep
-(setq visible-bell 1) 
-(require 'ido)
-(ido-mode t)
+;; (setq visible-bell 1)
+;; Set up the visible bell
+
+(setq visible-bell t)
+
+(setq inhibit-startup-message t) ;; No splash screen
+;;(setq initial-scratch-message nil) ;; No scratch message
+
+(scroll-bar-mode -1)        ; Disable visible scrollbar
+(tool-bar-mode -1)          ; Disable the toolbar
+(tooltip-mode -1)           ; Disable tooltips
+(set-fringe-mode 10)        ; Give some breathing room
+(menu-bar-mode -1)            ; Disable the menu bar
+
+
+;; Make ESC quit prompts
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 (global-hl-line-mode 1)
 (global-linum-mode 1)
 
+;; MELPA PACKAGES SET UP
+;; (require 'package)
+;; (add-to-list 'package-archives
+;;              '("melpa" . "http://melpa.org/packages/") t)
+;; (add-to-list 'package-archives
+;;              '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+;; (add-to-list 'package-archives
+;;              '("marmalade" . "http://marmalade-repo.org/packages/") t)
+;; (add-to-list 'package-archives
+;;              '("tromey" . "http://tromey.com/elpa/") t)
+;; 
+;; (package-initialize)
+
+;; (when (not package-archive-contents)
+;;   (package-refresh-contents))
+;; 
+;; (setq package-list '(auto-complete magit))
+;; 
+;; ;; install the missing packages
+;; (dolist (package package-list)
+;;   (unless (package-installed-p package)
+;;     (package-install package)))
+
+;; Initialize package sources
+(require 'package)
+
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
+
+(package-initialize)
+(unless package-archive-contents
+ (package-refresh-contents))
+
+;; Initialize use-package on non-Linux platforms
+(unless (package-installed-p 'use-package)
+   (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+(use-package command-log-mode)
+
+(use-package ivy
+  :diminish
+  :bind (("C-s" . swiper)
+         :map ivy-minibuffer-map
+         ("TAB" . ivy-alt-done)	
+         ("C-l" . ivy-alt-done)
+         ("C-j" . ivy-next-line)
+         ("C-k" . ivy-previous-line)
+         :map ivy-switch-buffer-map
+         ("C-k" . ivy-previous-line)
+         ("C-l" . ivy-done)
+         ("C-d" . ivy-switch-buffer-kill)
+         :map ivy-reverse-i-search-map
+         ("C-k" . ivy-previous-line)
+         ("C-d" . ivy-reverse-i-search-kill))
+  :config
+  (ivy-mode 1))
+
+;;(use-package doom-modeline
+;;  :ensure t
+;;  :init (doom-modeline-mode 1)
+;;  :custom ((doom-modeline-height 15)))
+
 ;;
-;; Key bindings
+;; END MELPA PACKAGES SET UP
 ;;
+
+(require 'ido)
+(ido-mode t)
+
+
+;;
+;; Keys
+;;
+
+;; Make ESC quit prompts
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+
 (global-set-key (kbd "C-z") 'goto-line) ;; Better use it for buffer centering
 (global-set-key [S-up] 'backward-paragraph)      ;; Jump to previous paragraph
 (global-set-key [S-down] 'forward-paragraph)     ;; Jump to next paragraph
@@ -21,6 +140,15 @@
 (global-set-key [C-tab] 'other-window)
 (global-set-key (kbd "C-x G") 'magit-status)
 (global-set-key (kbd "<delete>") 'delete-region)
+
+;; https://www.emacswiki.org/emacs/SearchAtPoint
+;; Search symbols
+(add-hook 'prog-mode-hook (lambda () (highlight-symbol-mode)))
+(setq highlight-symbol-on-navigation-p t)
+(global-set-key [f3] 'highlight-symbol-next)
+;;(global-set-key [(ctrl q)] 'highlight-symbol-next)
+(global-set-key [(shift f3)] 'highlight-symbol-prev)
+
 
 ;; AUTO FILL MODE
 ;; https://www.emacswiki.org/emacs/AutoFillMode
@@ -45,16 +173,11 @@
           '(lambda ()
              (define-key org-mode-map [(control tab)] nil)))
 
-;;;; http://ergoemacs.org/emacs/emacs_toggle-word-wrap.html
-(setq tooggle-word-wrap t)
-(setq-default fill-column 65)
 
 ;; org mode: no empty line 
 ;; C-h v org-blank-before-new-entry 
 (setf org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)))
 
-(setq inhibit-startup-message t) ;; No splash screen
-;;(setq initial-scratch-message nil) ;; No scratch message
 
 (defun get-full-path (subpath)
   (concat path-to-emacsd subpath))
@@ -75,15 +198,6 @@
 ;;(set-default-font "Fira Code") 
 
 
-;; Disable tool- and menu- bars
-(tool-bar-mode -1)
-;;(menu-bar-mode -1)
-
-;; Highlight selection
-(transient-mark-mode t)
-
-;; Uncomment this to increase font size
-(set-face-attribute 'default nil :height 125)
 
 ;; Calendar localization
 ;; http://www.emacswiki.org/emacs/CalendarLocalization
