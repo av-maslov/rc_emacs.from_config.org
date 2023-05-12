@@ -1,6 +1,7 @@
 ;;
 ;; What can be used without any plugins
 ;;
+(setq path-to-emacsd "~/.emacs.d/")
 
 ;; Turn off beep
 (setq visible-bell 1) 
@@ -10,12 +11,22 @@
 (global-hl-line-mode 1)
 (global-linum-mode 1)
 
-;;;; START Key bindings
+;;
+;; Key bindings
+;;
 (global-set-key (kbd "C-z") 'goto-line) ;; Better use it for buffer centering
 (global-set-key [S-up] 'backward-paragraph)      ;; Jump to previous paragraph
 (global-set-key [S-down] 'forward-paragraph)     ;; Jump to next paragraph
 ;; Switch window with Ctrl-TAB 
 (global-set-key [C-tab] 'other-window)
+(global-set-key (kbd "C-x G") 'magit-status)
+(global-set-key (kbd "<delete>") 'delete-region)
+
+;; AUTO FILL MODE
+;; https://www.emacswiki.org/emacs/AutoFillMode
+;; Type M-x auto-fill-mode to activate the MinorMode for the current buffer, or put the following in your .emacs to activate it for all text mode buffers:
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(auto-fill-mode t)
 
 ;; Add new line without breaking the current line
 (defun end-of-line-and-indented-new-line ()
@@ -23,7 +34,6 @@
   (end-of-line)
   (newline-and-indent))
 (global-set-key (kbd "<C-return>") 'end-of-line-and-indented-new-line)
-;;;; END Key bindings
 
 ;; iBufer: http://emacswiki.org/emacs/IbufferMode
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -34,7 +44,6 @@
 (add-hook 'org-mode-hook
           '(lambda ()
              (define-key org-mode-map [(control tab)] nil)))
-
 
 ;;;; http://ergoemacs.org/emacs/emacs_toggle-word-wrap.html
 (setq tooggle-word-wrap t)
@@ -57,7 +66,6 @@
       `((".*" , "~/.emacstemp/" t)))
 
 ;; User interface
-
 ;; Set default font
 ;; (set-default-font "Courier")
 ;;(set-default-font "Lucida Console")
@@ -97,7 +105,7 @@
 (show-paren-mode 1)
 (setq show-paren-delay 0)
 
-
+;; FUNCTIONS
 ;;;; Show trailing whitespace
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html
 ;; This (for some reason) anly activates it only in the current buffer (not interactively)
