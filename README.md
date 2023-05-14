@@ -5,6 +5,15 @@ Project structure inspired by :
 https://github.com/ChristianChiarulli/lvim
 https://github.com/doomemacs/doomemacs
 
+## Set up 
+
+### Ivy 
+https://oremacs.com/swiper/#installation
+```
+cd plugins 
+git clone https://github.com/abo-abo/swiper
+cd swiper && make compile
+```
 
 ### To clone
 

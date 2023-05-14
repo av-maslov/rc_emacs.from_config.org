@@ -1,21 +1,23 @@
 ;;
 ;; What can be used without any plugins
 ;;
-(setq path-to-emacsd "~/.emacs.d/")
-
+(scroll-bar-mode -1)        ; Disable visible scrollbar
+(tool-bar-mode -1)          ; Disable the toolbar
+(tooltip-mode -1)           ; Disable tooltips
+(set-fringe-mode 10)        ; Give some breathing room
+(menu-bar-mode -1)            ; Disable the menu bar
+(global-hl-line-mode 1)
+(global-linum-mode 1)
+(recentf-mode 1) ;; M-x recentf-open-files
 ;; https://github.com/daviwil/emacs-from-scratch/blob/3075158cae210060888001c0d76a58a4178f6a00/init.el
 ;;;; http://ergoemacs.org/emacs/emacs_toggle-word-wrap.html
 (setq tooggle-word-wrap t)
 (setq-default fill-column 65)
-(tool-bar-mode -1)
-(menu-bar-mode -1)
 ;; Highlight selection
 (transient-mark-mode t)
-
 ;;(set-face-attribute 'default nil :height 125)
-(set-face-attribute 'default nil :font "Fira Code Retina" :height 110)
+(set-face-attribute 'default nil :font "Fira Code Retina" :height 120)
 
-(recentf-mode 1) ;; M-x recentf-open-files
 (setq history-length 25)
 (savehist-mode 1)
 ;; Remember and restore the last cursor location of opened files
@@ -32,24 +34,24 @@
 ;; Turn off beep
 ;; (setq visible-bell 1)
 ;; Set up the visible bell
-
 (setq visible-bell t)
-
 (setq inhibit-startup-message t) ;; No splash screen
 ;;(setq initial-scratch-message nil) ;; No scratch message
-
-(scroll-bar-mode -1)        ; Disable visible scrollbar
-(tool-bar-mode -1)          ; Disable the toolbar
-(tooltip-mode -1)           ; Disable tooltips
-(set-fringe-mode 10)        ; Give some breathing room
-(menu-bar-mode -1)            ; Disable the menu bar
-
-
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(require 'ido)
+(ido-mode t)
 
-(global-hl-line-mode 1)
-(global-linum-mode 1)
+;; Set window size
+(when window-system (set-frame-size (selected-frame) 100 40))
+;; show column numbers
+(setq column-number-mode t)
+;; Use spaces instead of tabs when indenting
+(setq-default indent-tabs-mode nil)
+;; See matching pairs of parentheses 
+;; https://www.emacswiki.org/emacs/ShowParenMode
+(show-paren-mode 1)
+(setq show-paren-delay 0)
 
 ;; MELPA PACKAGES SET UP
 ;; (require 'package)
@@ -76,54 +78,20 @@
 
 ;; Initialize package sources
 (require 'package)
-
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("org" . "https://orgmode.org/elpa/")
                          ("elpa" . "https://elpa.gnu.org/packages/")))
-
 (package-initialize)
 (unless package-archive-contents
- (package-refresh-contents))
-
-;; Initialize use-package on non-Linux platforms
+  (package-refresh-contents))
+;; Install use-package if not installed
 (unless (package-installed-p 'use-package)
    (package-install 'use-package))
-
 (require 'use-package)
-(setq use-package-always-ensure t)
-
-(use-package command-log-mode)
-
-(use-package ivy
-  :diminish
-  :bind (("C-s" . swiper)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-alt-done)	
-         ("C-l" . ivy-alt-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (ivy-mode 1))
-
-;;(use-package doom-modeline
-;;  :ensure t
-;;  :init (doom-modeline-mode 1)
-;;  :custom ((doom-modeline-height 15)))
-
+(setq use-package-always-ensure t) ;; Automatically download packages if missing
 ;;
 ;; END MELPA PACKAGES SET UP
 ;;
-
-(require 'ido)
-(ido-mode t)
-
 
 ;;
 ;; Keys
@@ -139,7 +107,7 @@
 ;; Switch window with Ctrl-TAB 
 (global-set-key [C-tab] 'other-window)
 (global-set-key (kbd "C-x G") 'magit-status)
-(global-set-key (kbd "<delete>") 'delete-region)
+;;(global-set-key (kbd "<delete>") 'delete-region)
 
 ;; https://www.emacswiki.org/emacs/SearchAtPoint
 ;; Search symbols
@@ -179,8 +147,6 @@
 (setf org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)))
 
 
-(defun get-full-path (subpath)
-  (concat path-to-emacsd subpath))
 
 (setq backup-directory-alist
       `((".*" . , "~/.emacstemp/")))
@@ -205,20 +171,6 @@
 	  (lambda ()
 	    (calendar-set-date-style 'european)))
 	    
-;; Set window size
-(when window-system (set-frame-size (selected-frame) 100 40))
-
-;; show column numbers
-(setq column-number-mode t)
-
-;; Use spaces instead of tabs when indenting
-(setq-default indent-tabs-mode nil)
-
-;; See matching pairs of parentheses 
-;; https://www.emacswiki.org/emacs/ShowParenMode
-(show-paren-mode 1)
-(setq show-paren-delay 0)
-
 ;; FUNCTIONS
 ;;;; Show trailing whitespace
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html
