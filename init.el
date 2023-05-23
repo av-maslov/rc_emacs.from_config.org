@@ -17,9 +17,11 @@
 
 (load "~/.emacs.d/user/ivy.el")
 (load "~/.emacs.d/user/colors.el")
-(load "smex.el")
-(load "acejump.el")
-(load "highlight-symbol.el")
-(load "sly.el")
+(load "~/.emacs.d/user/smex.el")
+(load "~/.emacs.d/user/acejump.el")
+(load "~/.emacs.d/user/highlight-symbol.el")
+(load "~/.emacs.d/user/sly.el") ;; sbcl
 (load "~/.emacs.d/user/yasnippet-and-autocomlete.el")
+(load "~/.emacs.d/user/paredit.el")
+(load "~/.emacs.d/user/magit_set_up.el")
 

@@ -85,4 +85,5 @@
 ;;(dark-clojure)
 ;;(spc-dark)
 ;;(load "gruvbox.el")
-(load-theme 'gruvbox-dark-hard t)
+;;(load-theme 'gruvbox-dark-hard t)
+(load-theme 'tomorrow-night t)

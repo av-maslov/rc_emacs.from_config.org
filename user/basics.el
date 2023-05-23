@@ -106,7 +106,7 @@
 (global-set-key [S-down] 'forward-paragraph)     ;; Jump to next paragraph
 ;; Switch window with Ctrl-TAB 
 (global-set-key [C-tab] 'other-window)
-(global-set-key (kbd "C-x G") 'magit-status)
+(global-set-key (kbd "C-x g") 'magit-status)
 ;;(global-set-key (kbd "<delete>") 'delete-region)
 
 ;; https://www.emacswiki.org/emacs/SearchAtPoint
