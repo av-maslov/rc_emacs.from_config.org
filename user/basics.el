@@ -5,10 +5,21 @@
 (tool-bar-mode -1)          ; Disable the toolbar
 (tooltip-mode -1)           ; Disable tooltips
 (set-fringe-mode 10)        ; Give some breathing room
-(menu-bar-mode -1)            ; Disable the menu bar
+(menu-bar-mode -1)          ; Disable the menu bar
 (global-hl-line-mode 1)
 (global-linum-mode 1)
+
+
+
+;; Recent files
+;; https://emacs.stackexchange.com/questions/44589/how-show-recent-files
+(require 'recentf)
 (recentf-mode 1) ;; M-x recentf-open-files
+(setq recentf-max-menu-items 25)
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+;;
+
+
 ;; https://github.com/daviwil/emacs-from-scratch/blob/3075158cae210060888001c0d76a58a4178f6a00/init.el
 ;;;; http://ergoemacs.org/emacs/emacs_toggle-word-wrap.html
 (setq tooggle-word-wrap t)
