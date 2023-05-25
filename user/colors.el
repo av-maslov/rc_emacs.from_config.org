@@ -11,6 +11,10 @@
 (add-to-list 'load-path (get-full-path "themes/emacs-theme-gruvbox/"))
 (add-to-list 'custom-theme-load-path (get-full-path "themes/emacs-theme-gruvbox"))
 
+
+(add-to-list 'load-path "~/.emacs.d/themes/modus-themes")
+
+
 ;;(load-theme 'tomorrow-night)
 ;;(load-theme 'tomorrow-night-bright)
 ;;(load-theme 'tomorrow-night-blue)
@@ -86,4 +90,5 @@
 ;;(spc-dark)
 ;;(load "gruvbox.el")
 ;;(load-theme 'gruvbox-dark-hard t)
-(load-theme 'tomorrow-night t)
+;;(load-theme 'tomorrow-night t)
+(load-theme 'modus-vivendi t)
