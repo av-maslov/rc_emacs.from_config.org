@@ -24,6 +24,13 @@
 (load "~/.emacs.d/user/paredit.el")
 (load "~/.emacs.d/user/magit_set_up.el")
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;                                                ;;;
+;;; SETTINGS TO BE MOVED INTO MODULES ONCE STABLE: ;;;
+;;;                                                ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; START: Python 
 ;; https://fredrikmeyer.net/2020/08/26/emacs-python-venv.html
 ;; pyvenv-activate
@@ -63,3 +70,17 @@
         fzf/position-bottom t
         fzf/window-height 15))
 ;; END: rg and fzf
+
+
+;; Auto-install without use-package
+(unless (package-installed-p 'projectile)
+  (package-install 'projectile))
+
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode +1)
+  :bind (:map projectile-mode-map
+              ("s-p" . projectile-command-map)
+              ("C-c p" . projectile-command-map)))
+
