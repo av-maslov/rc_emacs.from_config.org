@@ -2,8 +2,9 @@
 2023-05-12: Set up for SBCL, abandon doom emacs, but learn trheir set up 
 
 Project structure inspired by :
-https://github.com/ChristianChiarulli/lvim
-https://github.com/doomemacs/doomemacs
+
+- https://github.com/ChristianChiarulli/lvim
+- https://github.com/doomemacs/doomemacs
 
 ## Set up 
 
