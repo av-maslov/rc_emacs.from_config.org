@@ -91,4 +91,4 @@
 ;;(load "gruvbox.el")
 ;;(load-theme 'gruvbox-dark-hard t)
 ;;(load-theme 'tomorrow-night t)
-(load-theme 'modus-vivendi t)
+;;w(load-theme 'modus-vivendi t)

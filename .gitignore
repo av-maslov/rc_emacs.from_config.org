@@ -1,4 +1,6 @@
 ac-math/
+elpa*
+elpacs/
 *.eld
 *.data
 *.el~
@@ -7,6 +9,7 @@ ac-math/
 elpa/
 *.*~
 bookmarks
+bookmarks*
 smex-items
 ido.last
 ac-comphist.dat
