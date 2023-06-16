@@ -92,8 +92,9 @@
     :global-prefix "M-SPC") ;; access leader in insert mode
 
   (al/leader-keys
-    "," '(ido-dired :wk "Dired")
-    "." '(ibuffer :wk "ibuffer")
+    "." '(ido-dired :wk "Dired")
+    "," '(ivy-switch-buffer :wk "ivy switch buffer")
+    ;;"." '(ibuffer :wk "ibuffer")
     "f" '(find-file :wk "Find file")
     "s" '(save-buffer :wk "Save buffer")
     "b" '(bookmark-jump :wk "Bookrmark jump")
