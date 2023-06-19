@@ -19,3 +19,5 @@ recentf
 custom-vars*
 transient/
 elpy/
+var/
+.lsp*

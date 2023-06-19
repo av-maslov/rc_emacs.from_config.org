@@ -93,20 +93,23 @@
 
   (al/leader-keys
     "." '(ido-dired :wk "Dired")
+    ;;"." '(ibuffer :wk "ibuffer")
     "," '(ivy-switch-buffer :wk "ivy switch buffer")
     ;;"." '(ibuffer :wk "ibuffer")
-    "f" '(find-file :wk "Find file")
-    "s" '(save-buffer :wk "Save buffer")
-    "b" '(bookmark-jump :wk "Bookrmark jump")
-    "l" '(bookmark-bmenu-list :wk "Show bookmarks")
+    ;;"f" '(find-file :wk "Find file")
+    "f" '(counsel-find-file :wk "Find file")
+    "w" '(save-buffer :wk "Save buffer")
+    "b" '(counsel-bookmark :wk "Bookrmark jump")
+    ;;"b" '(bookmark-jump :wk "Bookrmark jump")
+    ;;"l" '(bookmark-bmenu-list :wk "Show bookmarks")
     "g c" '((lambda () (interactive) (find-file "~/.emacs.d/config.org")) :wk "Edit emacs config")
     "TAB TAB" '(comment-line :wk "Comment lines"))
 
-  (al/leader-keys
-    "w" '(:ignore t :wk "Window")
-    "w v" '(split-window-right :wk "Split vertical")
-    "w h" '(split-window-below :wk "Split below")
-    )
+  ;; (al/leader-keys
+  ;;   "w" '(:ignore t :wk "Window")
+  ;;   "w v" '(split-window-right :wk "Split vertical")
+  ;;   "w h" '(split-window-below :wk "Split below")
+  ;;   )
 
   ;; (al/leader-keys
   ;;   "b" '(:ignore t :wk "buffer")
@@ -206,7 +209,7 @@
 (tool-bar-mode -1)          ; Disable the toolbar
 (tooltip-mode -1)           ; Disable tooltips
 (set-fringe-mode 10)        ; Give some breathing room
-(menu-bar-mode -1)          ; Disable the menu bar
+(menu-bar-mode 1)          ; menu bar
 (global-hl-line-mode -1)    ; Show current line
 ;; (global-linum-mode 1)
 ;; Recent files
@@ -265,8 +268,6 @@
 (setq auto-save-file-name-transforms
       `((".*" , "~/.emacstemp/" t)))
 
-(use-package auto-complete)
-(use-package yasnippet)
 (use-package sly)
 (load "~/.emacs.d/user/sly.el")
 ;;(load "~/.emacs.d/user/yasnippet-and-autocomlete.el")
@@ -289,7 +290,8 @@
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-one t)
+  ;;(load-theme 'doom-one t)
+  (load-theme 'doom-gruvbox t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -303,7 +305,7 @@
 
 ;;(load-theme 'deeper-blue)
 ;;(load-theme 'dracula-theme)
-(load-theme 'wombat)
+;;(load-theme 'wombat)
 ;;(load-theme 'doom-dracula)
 
 (use-package tree-sitter
@@ -341,7 +343,21 @@
 (use-package pyvenv
   :ensure t
   :config
-  (pyvenv-mode t))
+  (pyvenv-mode t)
+
+  ;; Set correct Python interpreter
+  (setq pyvenv-post-activate-hooks
+        (list (lambda ()
+                (setq python-shell-interpreter (concat pyvenv-virtual-env ".venv/bin/python3")))))
+  (setq pyvenv-post-deactivate-hooks
+        (list (lambda ()
+                (setq python-shell-interpreter "python3")))))
+
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))  ; or lsp-deferred
 
 ;;(add-to-list 'load-path "~/git/swiper/")
 ;;(require 'ivy)
@@ -359,6 +375,7 @@
 (global-set-key (kbd "C-c f") 'counsel-fzf)
 (global-set-key (kbd "C-c g") 'counsel-git)
 (global-set-key (kbd "C-c t") 'counsel-load-theme)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
 
 (global-set-key (kbd "C-x l") 'counsel-locate)
 (global-set-key (kbd "C-c J") 'counsel-file-jump)
@@ -366,7 +383,6 @@
 (global-set-key (kbd "C-c L") 'counsel-git-log)
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
 (global-set-key (kbd "M-y") 'counsel-yank-pop)
 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
@@ -391,3 +407,41 @@
 
 (global-set-key (kbd "C-c F") 'counsel-org-file)
 )
+
+(use-package ivy-prescient
+  :after counsel
+  :config
+  (ivy-prescient-mode 1)
+  ;; Remember candidate frequencies across sessions
+  (prescient-persist-mode 1)
+  )
+
+(use-package magit
+  :ensure t)
+
+(use-package yasnippet
+  :ensure t
+  :config 
+(yas-global-mode 1)
+;; (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+;; http://sethlakowske.com/why-i-use-emacs/fix-yasnippet-and-autocomplete-tab-key-collision/
+;; Remove Yasnippet's default tab key binding
+(define-key yas-minor-mode-map (kbd "<tab>") nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
+;; Set Yasnippet's key binding to shift+tab
+(define-key yas-minor-mode-map (kbd "<backtab>") 'yas-expand)
+;; Alternatively use Control-c + tab
+(define-key yas-minor-mode-map (kbd "\C-c TAB") 'yas-expand)
+  )
+
+(use-package auto-complete
+  :ensure t
+  :config 
+(ac-config-default)
+(auto-complete-mode t)
+(global-auto-complete-mode t)
+
+  )
+
+;;(use-package auto-complete-config
+;;  :ensure t)
