@@ -98,6 +98,7 @@
     ;;"." '(ibuffer :wk "ibuffer")
     ;;"f" '(find-file :wk "Find file")
     "f" '(counsel-find-file :wk "Find file")
+    "k" '(ido-kill-buffer :wk "Kill buffer")
     "w" '(save-buffer :wk "Save buffer")
     "b" '(counsel-bookmark :wk "Bookrmark jump")
     ;;"b" '(bookmark-jump :wk "Bookrmark jump")
@@ -197,7 +198,7 @@
   which-key-sort-uppercase-first nil
   which-key-add-column-padding 1
   which-key-max-display-columns nil
-  which-key-min-display-lines 6
+  which-key-min-display-lines 8
   which-key-side-window-slot -10
   which-key-side-window-max-height 0.25
   which-key-idle-delay 0.8
@@ -290,6 +291,7 @@
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
   ;;(load-theme 'doom-one t)
   (load-theme 'doom-gruvbox t)
 
@@ -307,6 +309,29 @@
 ;;(load-theme 'dracula-theme)
 ;;(load-theme 'wombat)
 ;;(load-theme 'doom-dracula)
+
+(setq path-to-emacsd "~/.emacs.d/")
+(defun get-full-path (subpath)
+  (concat path-to-emacsd subpath))
+;; Color themes
+(add-to-list 'custom-theme-load-path (get-full-path "themes") )
+(add-to-list 'load-path (get-full-path "themes/"))
+(add-to-list 'load-path (get-full-path "themes/emacs-color-theme-solarized/"))
+(add-to-list 'custom-theme-load-path (get-full-path "themes/emacs-color-theme-solarized/"))
+(add-to-list 'custom-theme-load-path (get-full-path "themes/monokai-emacs/"))
+
+(add-to-list 'load-path (get-full-path "themes/emacs-for-clojure/"))
+(add-to-list 'custom-theme-load-path (get-full-path "themes/emacs-for-clojure"))
+
+(add-to-list 'load-path (get-full-path "themes/emacs-theme-gruvbox/"))
+(add-to-list 'custom-theme-load-path (get-full-path "themes/emacs-theme-gruvbox"))
+
+(add-to-list 'load-path "~/.emacs.d/themes/modus-themes")
+
+(add-to-list 'load-path (get-full-path "themes/organic-green-theme"))
+(add-to-list 'custom-theme-load-path (get-full-path "themes/organic-green-theme"))
+
+;;(load-theme 'organic-green t)
 
 (use-package tree-sitter
 :ensure t 
@@ -423,7 +448,7 @@
   :ensure t
   :config 
   (yas-global-mode 1)
-  ;; (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
   ;; http://sethlakowske.com/why-i-use-emacs/fix-yasnippet-and-autocomplete-tab-key-collision/
   ;; Remove Yasnippet's default tab key binding
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
@@ -444,3 +469,11 @@
 
 ;;(use-package auto-complete-config
 ;;  :ensure t)
+
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode +1)
+  :bind (:map projectile-mode-map
+              ("s-p" . projectile-command-map)
+              ("C-c p" . projectile-command-map)))

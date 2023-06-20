@@ -21,8 +21,8 @@
   - [[#testing][Testing]]
   - [[#keybindings-native][Keybindings (native)]]
   - [[#colors][Colors]]
-  - [[#install-doom-themes-and-set-theme][Install doom-themes and set theme]]
-  - [[#set-not-doom-theme][Set not doom theme]]
+  - [[#doom-themes-set-theme-inside][Doom-themes (set theme inside)]]
+  - [[#color-theme][Color theme]]
   - [[#tree-sitter][Tree sitter]]
   - [[#fzf][FZF]]
   - [[#ripgrep][Ripgrep]]
@@ -30,6 +30,8 @@
   - [[#counsel--ivy--swiper][Counsel / Ivy / swiper]]
   - [[#prescient-ivy][Prescient Ivy]]
   - [[#magit][Magit]]
+  - [[#autocomplete][Autocomplete]]
+  - [[#projectile][Projectile]]
 
 * IMPORTANT PROGRAMS TO LOAD FIRST
 ** Elpaca Package Manager
@@ -118,6 +120,15 @@
 ;; Don't install anything. Defer execution of BODY
 ;; (elpaca nil (message "deferred"))
 #+end_src
+
+Make symbols searchable.
+- https://evil.readthedocs.io/en/latest/faq.html
+  https://evil.readthedocs.io/en/latest/faq.html#underscore-is-not-a-word-character
+  > If you would be satisfied by having the * and # searches use symbols instead of words, this can be achieved by setting the evil-symbol-word-search variable to t.
+#+begin_src emacs-lisp
+(setq evil-symbol-word-search t)
+#+end_src
+
 ** RELOAD EMACS
 
 #+begin_src emacs-lisp
@@ -150,6 +161,7 @@
       ;;"." '(ibuffer :wk "ibuffer")
       ;;"f" '(find-file :wk "Find file")
       "f" '(counsel-find-file :wk "Find file")
+      "k" '(ido-kill-buffer :wk "Kill buffer")
       "w" '(save-buffer :wk "Save buffer")
       "b" '(counsel-bookmark :wk "Bookrmark jump")
       ;;"b" '(bookmark-jump :wk "Bookrmark jump")
@@ -296,7 +308,7 @@ Other expansions available include:
   which-key-sort-uppercase-first nil
   which-key-add-column-padding 1
   which-key-max-display-columns nil
-  which-key-min-display-lines 6
+  which-key-min-display-lines 8
   which-key-side-window-slot -10
   which-key-side-window-max-height 0.25
   which-key-idle-delay 0.8
@@ -397,7 +409,7 @@ Other expansions available include:
 #+end_src
 
 ** Colors
-** Install doom-themes and set theme
+** Doom-themes (set theme inside)
       
 #+begin_src emacs-lisp
 ;;(load "~/.emacs.d/init_minimum_from_scratch.el")
@@ -407,8 +419,10 @@ Other expansions available include:
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
   ;;(load-theme 'doom-one t)
-  (load-theme 'doom-gruvbox t)
+  ;; (load-theme 'doom-gruvbox t)
+  (load-theme 'doom-zenburn t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -421,13 +435,37 @@ Other expansions available include:
   (doom-themes-org-config))
 #+end_src
 
-** Set not doom theme 
+** Color theme 
 
 #+begin_src emacs-lisp
 ;;(load-theme 'deeper-blue)
 ;;(load-theme 'dracula-theme)
-;;(load-theme 'wombat)
+;;(load-theme 'wombat)  ;; Good theme (default dark)?
 ;;(load-theme 'doom-dracula)
+
+(setq path-to-emacsd "~/.emacs.d/")
+(defun get-full-path (subpath)
+  (concat path-to-emacsd subpath))
+;; Color themes
+(add-to-list 'custom-theme-load-path (get-full-path "themes") )
+(add-to-list 'load-path (get-full-path "themes/"))
+(add-to-list 'load-path (get-full-path "themes/emacs-color-theme-solarized/"))
+(add-to-list 'custom-theme-load-path (get-full-path "themes/emacs-color-theme-solarized/"))
+(add-to-list 'custom-theme-load-path (get-full-path "themes/monokai-emacs/"))
+
+(add-to-list 'load-path (get-full-path "themes/emacs-for-clojure/"))
+(add-to-list 'custom-theme-load-path (get-full-path "themes/emacs-for-clojure"))
+
+(add-to-list 'load-path (get-full-path "themes/emacs-theme-gruvbox/"))
+(add-to-list 'custom-theme-load-path (get-full-path "themes/emacs-theme-gruvbox"))
+
+(add-to-list 'load-path "~/.emacs.d/themes/modus-themes")
+
+(add-to-list 'load-path (get-full-path "themes/organic-green-theme"))
+(add-to-list 'custom-theme-load-path (get-full-path "themes/organic-green-theme"))
+
+;;(load-theme 'zenburn t)
+
 #+end_src
 
 ** Tree sitter
@@ -442,7 +480,11 @@ Other expansions available include:
 ;; (add-hook 'rust-mode-hook #'tree-sitter-mode)
 ;; (add-hook 'python-mode-hook #'tree-sitter-mode)
 ;; (add-hook 'python-mode-hook #'tree-sitter-hl-mode)
-;; (tree-sitter-hl-mode 1)
+
+;;(tree-sitter-hl-mode 1)
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+
 #+end_src
 
 ** FZF 
@@ -584,7 +626,7 @@ to have completions sorted by frequency of use
   :ensure t)
 #+end_src
 
-* Autocomplete 
+** Autocomplete 
 
 #+begin_src emacs-lisp
 
@@ -613,4 +655,17 @@ to have completions sorted by frequency of use
 
 ;;(use-package auto-complete-config
 ;;  :ensure t)
+#+end_src
+
+** Projectile
+
+#+begin_src emacs-lisp
+
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode +1)
+  :bind (:map projectile-mode-map
+              ("s-p" . projectile-command-map)
+              ("C-c p" . projectile-command-map)))
 #+end_src
