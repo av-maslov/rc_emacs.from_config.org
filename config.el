@@ -75,6 +75,8 @@
 ;; Don't install anything. Defer execution of BODY
 ;; (elpaca nil (message "deferred"))
 
+(setq evil-symbol-word-search t)
+
 (defun reload-init-file ()
   (interactive)
   (load-file user-init-file)
@@ -293,7 +295,8 @@
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
 
   ;;(load-theme 'doom-one t)
-  (load-theme 'doom-gruvbox t)
+  ;; (load-theme 'doom-gruvbox t)
+  (load-theme 'doom-zenburn t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -307,7 +310,7 @@
 
 ;;(load-theme 'deeper-blue)
 ;;(load-theme 'dracula-theme)
-;;(load-theme 'wombat)
+;;(load-theme 'wombat)  ;; Good theme (default dark)?
 ;;(load-theme 'doom-dracula)
 
 (setq path-to-emacsd "~/.emacs.d/")
@@ -331,7 +334,7 @@
 (add-to-list 'load-path (get-full-path "themes/organic-green-theme"))
 (add-to-list 'custom-theme-load-path (get-full-path "themes/organic-green-theme"))
 
-;;(load-theme 'organic-green t)
+;;(load-theme 'zenburn t)
 
 (use-package tree-sitter
 :ensure t 
@@ -343,7 +346,10 @@
 ;; (add-hook 'rust-mode-hook #'tree-sitter-mode)
 ;; (add-hook 'python-mode-hook #'tree-sitter-mode)
 ;; (add-hook 'python-mode-hook #'tree-sitter-hl-mode)
-;; (tree-sitter-hl-mode 1)
+
+;;(tree-sitter-hl-mode 1)
+;;(global-tree-sitter-mode 1)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
 (use-package fzf
   :bind
